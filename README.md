@@ -1,5 +1,3 @@
-[![Version Status][v-image]][pypi-url] 
-
 ## timewatch
 
 Tired of reporting work hours every day/month?
@@ -64,11 +62,4 @@ cd timewatch
 ./main.py <args>
 ```
 
-### Known issues
-* Doesn't sign the doc (I suggest you do it manually after reviewing there are no bugs in the report).
-* no support for reporting vacation/sick days through the script yet (You can report using timewatch's web interface before/after running the script)
-
-[v-image]: https://img.shields.io/pypi/v/timewatch.svg
-[dm-image]: https://img.shields.io/pypi/dm/timewatch.svg
-
-[pypi-url]: https://pypi.python.org/pypi/timewatch/
+Not on pypi or anywhere :P

@@ -18,7 +18,7 @@ class DayRecord:
     rest_day = "יום מנוחה"
 
     def __init__(self, day_line: str):
-        path, day, _, comment, _, entry1, exit1, entry2, exit2, entry3, exit3, manual_comment, _, _, _ = day_line.split("<td align=center")
+        path, day, _, comment, hours, entry1, exit1, entry2, exit2, entry3, exit3, manual_comment, _, _, _ = day_line.split("<td align=center")
         self.reported_not_working = False
         self.reported_working = False
         self.durations = []
@@ -28,7 +28,7 @@ class DayRecord:
         self.handle_manual_comment(manual_comment)
         self.handle_path(path)
         if not self.is_rest_day:
-            self.handle_required_hours()
+            self.handle_required_hours(hours)
         self.handle_duration_pair(entry1, exit1)
         self.handle_duration_pair(entry2, exit2)
         self.handle_duration_pair(entry3, exit3)
@@ -40,7 +40,7 @@ class DayRecord:
         if self.is_rest_day:
             desc += "is a rest day. "
         else:
-            desc += f"required hours: {self.hours}. "
+            desc += f"required hours: {self.hours.hour:02}:{self.hours.minute:02}. "
         if self.reported_not_working:
             desc += f"reported not working ({self.absent}). "
         if self.durations:
@@ -62,9 +62,9 @@ class DayRecord:
                 self.reported_not_working = True
                 self.absent = c
 
-    def handle_required_hours(self):
-        hours_str = self.comment.replace(" ", "")
-        self.hours = int(hours_str[:1])
+    def handle_required_hours(self, hours: str):
+        hours_str = self.parse_str(hours)
+        self.hours = self.datetime_entry(hours_str.replace(" ", ""))
 
     def handle_path(self, path: str):
         self.jdate = path.split("jd=")[1].split("&")[0]
@@ -115,7 +115,7 @@ class DayRecord:
     def punch_in_data(self, start_time: str, minutes_jitter: int, duration: int = 0):
         start_time = self.datetime_entry(start_time)
         jitter = random.randint(1, minutes_jitter) if minutes_jitter else 0
-        end_time = start_time + datetime.timedelta(hours=duration or self.hours, minutes=jitter)
+        end_time = start_time + datetime.timedelta(hours=duration or self.hours.hour, minutes=jitter + self.hours.minute)
         year, month, day = self.date.split("-")
         data = {'d': f"{day}-{month}-{year}",
                 'jd': self.jdate,

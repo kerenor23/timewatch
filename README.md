@@ -60,8 +60,11 @@ cd timewatch
 pip3 install -r requirements.txt
 python3 ./setup.py bdist_wheel
 pip3 install ./dist/*
-cd timewatch
-./main.py <args>
+```
+
+Now you can
+```
+python3 -m timewatch <args>
 ```
 
 Not on pypi or anywhere :P

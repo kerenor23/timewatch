@@ -20,8 +20,8 @@ To report required working hours for the current month, simply execute
 ### Full usage and functionality
 
 ```
-usage: main.py [-h] [-y YEAR] [-m MONTH] [-v] [-o {all,incomplete,regular}]
-               [-s STARTTIME] [-j JITTER]
+usage: main.py [-h] [-y YEAR] [-m MONTH] [-v] [-o {0,1,2}] [-s START_TIME]
+               [-j JITTER] [-d DURATION]
                company user password
 
 Automatic work hours reporting for timewatch.co.il
@@ -37,29 +37,29 @@ optional arguments:
   -m MONTH, --month MONTH
                         Month number or name
   -v, --verbose         increase logging level
-  -o {all,incomplete,regular}, --override {all,incomplete,regular}
-                        Control override behavior. all - override all working
-                        days, unsafe to vacation/sick days. incomplete = only
-                        override days with partial records. regular - override
-                        regular days (without absence reason) only
-  -s STARTTIME, --starttime STARTTIME
+  -o {0,1,2}, --override {0,1,2}
+                        Control override behavior: work_days: 0,all:
+                        1,unreported: 2. 1 - override all working days,
+                        including ones already reported. unsafe to
+                        vacation/sick days. 0 - override all working days,
+                        including ones already reported, but keep vacation /
+                        sick days2 - override only unreported days
+  -s START_TIME, --start_time START_TIME
                         punch-in time
   -j JITTER, --jitter JITTER
                         punching time random range in minutes.
+  -d DURATION, --duration DURATION
+                        hours duration (override preset edfault)
 ```
 
 ### Installation
 
 ```
-git clone https://github.com/nirizr/timewatch.git
+git clone https://github.com/kerenor23/timewatch.git
 cd timewatch
-pip install -r requirements.txt
-```
-
-or
-
-```
-pip install timewatch --target './'
+pip3 install -r requirements.txt
+python3 ./setup.py bdist_wheel
+pip3 install ./dist/*
 cd timewatch
 ./main.py <args>
 ```

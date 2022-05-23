@@ -8,7 +8,8 @@ from timewatch import TimeWatch, Override
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Automatic work hours reporting for timewatch.co.il')
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                     description='Automatic work hours reporting for timewatch.co.il')
 
     parser.add_argument('company', type=int, help='Company ID')
     parser.add_argument('user', help='user name/id')
@@ -20,14 +21,11 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--verbose', default=0, action='count', help='increase logging level')
     parser.add_argument('-o', '--override', default=Override.unreported.value, type=int,
                         choices=[o.value for o in Override],
-                        help=f'Control override behavior: {Override.describe()}. '
-                             f'{Override.all.value} - override all working days, including ones already reported. unsafe to vacation/sick days. '
-                             f'{Override.work_days.value} - override all working days, including ones already reported, but keep vacation / sick days'
-                             f'{Override.unreported.value} - override only unreported days')
+                        help=f'Control override behavior: {Override.describe()}')
 
     parser.add_argument('-s', '--start_time', default='10:00', help='punch-in time')
-    parser.add_argument('-j', '--jitter', default=0, type=int, help='punching time random range in minutes.')
-    parser.add_argument('-d', '--duration', default=9.0, type=float, help='hours duration (override preset edfault)')
+    parser.add_argument('-j', '--jitter', default=0, type=int, help='extra random minutes to add to duration.')
+    parser.add_argument('-d', '--duration', default=9.0, type=float, help='hours duration (override preset default of timewatch)')
 
     args = parser.parse_args()
 

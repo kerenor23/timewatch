@@ -22,7 +22,9 @@ class Override(IntEnum):
 
     @staticmethod
     def describe():
-        return ",".join(f"{o.name}: {o.value}" for o in Override)
+        return f"{Override.work_days.value}({Override.work_days.name})  - override all working days, including ones already reported, but not vacation/sick days. " \
+               f"{Override.all.value}({Override.all.name}) - override all working days, including ones already reported, including vacation/sick days. " \
+               f'{Override.unreported.value}({Override.unreported.name}) - override only unreported days.'
 
 
 class TimeWatchException(Exception):

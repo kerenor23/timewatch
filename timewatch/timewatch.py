@@ -85,10 +85,15 @@ class TimeWatch:
 
     def _parse_month(self):
         month_data = self._get_month_data(year=self.year, month=self.month)
-        relevant_table_part = month_data.split("</thead>")[1].split("</tbody>")[0]
-        self.csrf_token = month_data.split("csrf_token=\"")[1].split("\";")[0]
-        table_lines = relevant_table_part.split("</tr>")
-        return [DayRecord(l) for l in table_lines if l]
+        try:
+            relevant_table_part = month_data.split("</thead>")[1].split("</tbody>")[0]
+            self.csrf_token = month_data.split("csrf_token=\"")[1].split("\";")[0]
+            table_lines = relevant_table_part.split("</tr>")
+            return [DayRecord(l) for l in table_lines if l]
+        except:
+            self.logger.error('Failed parsing month data (see debug)')
+            self.logger.debug(month_data)
+            raise TimeWatchException(f'Failed to parsing month {month}-{year}')
 
     @staticmethod
     def month_number(month):
@@ -156,7 +161,7 @@ class TimeWatch:
         for day in tqdm.tqdm(days_to_update):
             day_data = day.punch_in_data(start_time=self.start_time, minutes_jitter=self.jitter, duration=self.duration)
             day_data.update({'e': str(self.employee_id), 'tl': str(self.employee_id), 'c': str(self.company), 'csrf_token': self.csrf_token})
+            time.sleep(1.0)
             r = self.post(self.edit_path, day_data)
             if r.status_code != 200 or r.text != '0':
                 raise TimeWatchException(f'Failed to update day {day.day}: {r.status_code}, {r.text}. Request data: {day_data}')
-            time.sleep(.1)

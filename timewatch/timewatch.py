@@ -7,7 +7,7 @@ import time
 import logging
 import tqdm
 
-from day_record import DayRecord
+from timewatch.day_record import DayRecord
 
 try:
     strtypes = (str, unicode)

@@ -4,7 +4,7 @@ import argparse
 import datetime
 import logging
 
-from timewatch import TimeWatch, Override
+from timewatch.timewatch import TimeWatch, Override
 
 
 if __name__ == "__main__":

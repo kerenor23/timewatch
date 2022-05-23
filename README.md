@@ -31,23 +31,25 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -y YEAR, --year YEAR  Year number to fill
+  -y YEAR, --year YEAR  Year number to fill (default: 2022)
   -m MONTH, --month MONTH
-                        Month number or name
-  -v, --verbose         increase logging level
+                        Month number or name (default: 5)
+  -v, --verbose         increase logging level (default: 0)
   -o {0,1,2}, --override {0,1,2}
-                        Control override behavior: work_days: 0,all:
-                        1,unreported: 2. 1 - override all working days,
-                        including ones already reported. unsafe to
-                        vacation/sick days. 0 - override all working days,
-                        including ones already reported, but keep vacation /
-                        sick days2 - override only unreported days
+                        Control override behavior: 0(work_days) - override all
+                        working days, including ones already reported, but not
+                        vacation/sick days. 1(all) - override all working
+                        days, including ones already reported, including
+                        vacation/sick days. 2(unreported) - override only
+                        unreported days. (default: 2)
   -s START_TIME, --start_time START_TIME
-                        punch-in time
+                        punch-in time (default: 10:00)
   -j JITTER, --jitter JITTER
-                        punching time random range in minutes.
+                        punching time random range in minutes. (default: 0)
   -d DURATION, --duration DURATION
-                        hours duration (override preset edfault)
+                        hours duration (override preset default of timewatch)
+                        (default: 9.0)
+
 ```
 
 ### Installation
